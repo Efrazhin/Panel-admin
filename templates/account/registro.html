@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{% static 'myadmin/dist/css/login.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in {
+      animation: fade-in 0.8s ease-out;
+    }
+
+    /* Estilo personalizado para el campo de foto de perfil */
+    .file-input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      background-color: #f1f5f9;
+      border: 2px solid #d1d5db;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .file-input-label:hover {
+      background-color: #e0e7ff;
+    }
+
+    .file-input-label i {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-blue-100 via-white to-blue-100 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md space-y-6 animate-fade-in">
+    <div class="text-center">
+      <i class="fas fa-user-circle text-blue-500 text-6xl mb-4"></i>
+      <h2 class="text-3xl font-extrabold text-gray-800">¡Bienvenido!</h2>
+      <p class="mt-2 text-gray-500 text-sm">Por favor, regístrate para continuar</p>
+    </div>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+
+      <!-- Correo electrónico -->
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <input type="email" name="email" id="id_email" required value="{{ form.email.value|default:'' }}"
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition text-gray-700"
+          placeholder="Correo electrónico" />
+      </div>
+
+      <!-- Nombre -->
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+          <i class="fas fa-user"></i>
+        </span>
+        <input type="text" name="nombre" id="id_nombre" required value="{{ form.nombre.value|default:'' }}"
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition text-gray-700"
+          placeholder="Nombre" />
+      </div>
+
+      <!-- Rol -->
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+          <i class="fas fa-id-badge"></i>
+        </span>
+        <input type="text" name="rol" id="id_rol" required value="{{ form.rol.value|default:'' }}"
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition text-gray-700"
+          placeholder="Rol" />
+      </div>
+
+      <!-- Contraseña -->
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+          <i class="fas fa-lock"></i>
+        </span>
+        <input type="password" name="password" id="id_password" required
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition text-gray-700"
+          placeholder="Contraseña" />
+      </div>
+
+      <!-- Confirmar Contraseña -->
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+          <i class="fas fa-lock"></i>
+        </span>
+        <input type="password" name="confirm_password" id="id_confirm_password" required
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition text-gray-700"
+          placeholder="Confirmar Contraseña" />
+      </div>
+
+      <!-- Foto de Perfil -->
+      <div class="file-input-wrapper relative">
+        <input type="file" name="profile_picture" id="id_profile_picture" class="file-input" />
+        <label for="id_profile_picture" class="file-input-label flex items-center">
+          <i class="fas fa-camera"></i> Cargar Foto de Perfil
+        </label>
+      </div>
+
+      {% if form.errors %}
+        <ul class="text-red-500 text-sm list-disc list-inside">
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+              <li><strong>{{ field|capfirst }}:</strong> {{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-2 rounded-full hover:from-blue-600 hover:to-indigo-600 transition duration-200 font-semibold">
+        Registrarse
+      </button>
+
+    </form>
+
+    <p class="mt-4 text-center text-sm text-gray-600">
+      ¿Ya tienes cuenta? <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Inicia sesión</a>
+    </p>
+  </div>
+
+</body>
+</html>

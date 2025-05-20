@@ -1,0 +1,69 @@
+<!-- SIDEBAR -->
+<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+    <div class="sidebar-brand">
+      <a href="{% url 'dashboard' %}" class="brand-link">
+        <span class="brand-text fw-light">Panel de control</span>
+      </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <nav class="mt-2">
+        <ul class="nav sidebar-menu flex-column" role="menu">
+  
+          <!-- Sección: Pacientes -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" onclick="toggleSubmenu('pacientesSub')">
+              <i class="nav-icon bi bi-person-fill"></i>
+              <p>Pacientes <i class="nav-arrow bi bi-chevron-down"></i></p>
+            </a>
+            <ul class="nav nav-treeview" id="pacientesSub" style="display: none;">
+              {% for item in pacientes_menu %}
+                <li class="nav-item">
+                  <a href="{% url item.url %}" class="nav-link">
+                    <i class="{{ item.icono }}"></i>
+                    <p>{{ item.nombre }}</p>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+  
+          <!-- Sección: Blog -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" onclick="toggleSubmenu('blogSub')">
+              <i class="nav-icon bi bi-journal-text"></i>
+              <p>Blog <i class="nav-arrow bi bi-chevron-down"></i></p>
+            </a>
+            <ul class="nav nav-treeview" id="blogSub" style="display: none;">
+              {% for item in blog_menu %}
+                <li class="nav-item">
+                  <a href="{% url item.url %}" class="nav-link">
+                    <i class="{{ item.icono }}"></i>
+                    <p>{{ item.nombre }}</p>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+  
+          <!-- Sección: Academia -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" onclick="toggleSubmenu('academiaSub')">
+              <i class="nav-icon bi bi-mortarboard-fill"></i>
+              <p>Academia <i class="nav-arrow bi bi-chevron-down"></i></p>
+            </a>
+            <ul class="nav nav-treeview" id="academiaSub" style="display: none;">
+              {% for item in academia_menu %}
+                <li class="nav-item">
+                  <a href="{% url item.url %}" class="nav-link">
+                    <i class="{{ item.icono }}"></i>
+                    <p>{{ item.nombre }}</p>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+  
+        </ul>
+      </nav>
+    </div>
+  </aside>

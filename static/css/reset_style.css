@@ -1,0 +1,55 @@
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.8s ease-out;
+}
+
+.warning-text {
+    color: #e53e3e; /* Red for error */
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+}
+
+.valid-text {
+    color: #48bb78; /* Green for valid */
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+}
+
+.input-container {
+    position: relative;
+}
+
+.eye-container {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+input {
+    padding-left: 2.5rem; /* Asegura que el icono de candado no sobresalga */
+    padding-right: 2.5rem; /* Asegura que el ícono de ojo tenga espacio */
+    height: 2.5rem; /* Ajuste para que el input tenga una altura uniforme */
+}
+
+.input-container input:invalid {
+    border-color: #e53e3e;
+}
+
+.error-message-container {
+    margin-top: 0.5rem;
+}
+
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+    display: none !important;
+}

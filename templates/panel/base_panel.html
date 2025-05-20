@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Panel - MigPsico{% endblock %}</title>
+
+  <!-- Estilos principales -->
+  <link rel="stylesheet" href="{% static 'myadmin/dist/css/adminlte.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css">
+
+  <script>
+    setTimeout(function() {
+      let alert = document.querySelector(".alert");
+      if (alert) alert.style.display = "none";
+    }, 6000);
+  </script>
+</head>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+
+  {% if messages %}
+    <div class="welcome-message">
+      {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="app-wrapper">
+
+    <!-- NAVBAR SUPERIOR -->
+    <nav class="app-header navbar navbar-expand bg-body">
+      <div class="container-fluid">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+              <i class="bi bi-list"></i>
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+            <a class="nav-link" href="{% url 'registro' %}">Registrar usuarios</a>
+            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+          {% endif %}
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown user-menu">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              {% if user.profile_picture %}
+                <img src="{{ user.profile_picture.url }}" class="user-image rounded-circle shadow" alt="User Image"/>
+              {% else %}
+                <i class="bi bi-person-circle fs-3 text-secondary"></i>
+              {% endif %}
+              <span class="d-none d-md-inline">{{ user.nombre }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+              <li class="user-header text-bg-primary">
+                {% if user.is_authenticated %}
+                  {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" class="user-image rounded-circle shadow" width="80" />
+                  {% endif %}
+                  <p class="mt-2">Hola, {{ user.nombre }}!</p>
+                  <p>Panel de {{ user.rol }}</p>
+                {% endif %}
+              </li>
+              <li class="user-body">
+                <div class="row">
+                  <div class="col-4 text-center"><a href="#">-</a></div>
+                  <div class="col-4 text-center"><a href="#">-</a></div>
+                  <div class="col-4 text-center"><a href="#">-</a></div>
+                </div>
+              </li>
+              <li class="user-footer">
+                <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="nav-link">Cerrar Sesión</button>
+                </form>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- SIDEBAR -->
+    {% include "componentes/_sidebar.html" %}
+
+    <!-- CONTENIDO -->
+    <main class="content-wrapper p-4">
+      {% block content %}
+      <!-- Contenido de cada vista -->
+      {% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <div class="float-end d-none d-sm-inline">MigPsicología | Panel de administración</div>
+      <strong>
+        Copyright &copy; 2024
+        <a href="#" class="text-decoration-none">MigPsico.com</a>.
+      </strong>
+      Todos los derechos reservados.
+    </footer>
+
+  </div>
+
+  {% block scripts %}{% endblock %}
+
+  <!-- Scripts globales -->
+  <script>
+    function toggleSubmenu(id) {
+      const submenu = document.getElementById(id);
+      submenu.style.display = submenu.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+</body>
+</html>
